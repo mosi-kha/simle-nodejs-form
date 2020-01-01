@@ -38,10 +38,7 @@ app.post('/', (req, res) => {
     let _address = req.body.address;
     let _date = req.body.date;
 
-    // let _p_date = new persianDate(_date);
-    // persianDate().isPersianDate(_p_date());
-
-    var form = new Form(({
+    let form = new Form(({
         name: _name,
         address: _address,
         date: _date
