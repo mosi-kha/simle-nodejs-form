@@ -5,29 +5,56 @@
     <meta charset="utf-8">
     <title>Simple Form</title>
     <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/persian-datepicker.min.css" />
+    <link rel="stylesheet" href="style/persian-datepicker.min.css"/>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="js/persian-datepicker.min.js"></script>
     <script src="js/persian-date.min.js"></script>
 </head>
 <body>
-    <form class="box" action="/" method="post">
-        <h1>Form</h1>
-        <input type="text" name="name" placeholder="Name">
-        <input type="text" name="address" placeholder="Address">
-        
-        <script>
-            $(document).ready(function () {
-                $('.normal-example').persianDatepicker({
-                    format: "YYYY/MM/DD",
-                    responsive: true
+<form class="box" action="/" method="post">
+    <h1>Form</h1>
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="address" placeholder="Address">
+
+    <script>
+        $(document).ready(function () {
+            $('.normal-example').persianDatepicker({
+                format: "YYYY/MM/DD",
+                responsive: true
+            });
+
+            $("#btn1").click(() => {
+                $.ajax({
+                    url: 'forms/',
+                    type: 'GET',
+                    // async: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log('ajax success!');
+                        let buffer = "";
+
+                        for (let i = 0; i < result.length; i++) {
+                            let item = result[i];
+                            console.log(item.name);
+                            buffer += " <b>name:</b> " + item.name + "<br><b>address:</b> " + item.address + "<br><b>date:</b> " + item.date + "<hr>";
+                        }
+
+                        $('#forms').html(buffer).slideToggle().css({
+                            color: 'black',
+                            background: 'white',
+                            border: '2px solid #3498db',
+                            borderRadius: '24px'
+                        });
+                    }
                 });
 
             });
-        </script>
-        <input type="text" name="" class="normal-example" />
-        <input type="submit" name="" value="Submit">
-        <input type="button" name="show_hide" value="show/hide">
-    </form>
+        });
+    </script>
+    <input type="text" name="date" class="normal-example"/>
+    <input type="submit" name="" value="Submit">
+    <input id="btn1" type="button" name="show_hide" value="show/hide">
+    <div class="list" id="forms"></div>
+</form>
 </body>
 </html>
