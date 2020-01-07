@@ -1,12 +1,11 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const persianDate = require('persian-date');
 const Schema = mongoose.Schema;
 
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost:27017/formDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/formDB', {useNewUrlParser: true, useUnifiedTopology: true});
 let db = mongoose.connection;
 db.on('error', console.log.bind(console, "connection error"));
 db.once('open', function (callback) {
@@ -15,10 +14,11 @@ db.once('open', function (callback) {
 
 //create db model
 let FormSchema = new Schema({
-    address: String,
-    name: String,
-    date: String,
-}
+        address: String,
+        name: String,
+        date: String,
+        email: String
+    }
 );
 
 let Form = mongoose.model('Form', FormSchema);
@@ -31,20 +31,27 @@ app.use(express.json());
 app.use(express.static('./public'));
 app.use(express.urlencoded());
 
-let form = mongoose.model('Form', FormSchema);
+function validateEmail(email) {
+    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 
 app.post('/', (req, res) => {
     let _name = req.body.name;
     let _address = req.body.address;
     let _date = req.body.date;
+    let _email = req.body.email;
 
-    // let _p_date = new persianDate(_date);
-    // persianDate().isPersianDate(_p_date());
+    if (!validateEmail(_email)) {
+        return res.redirect(422,'index.html');
+    }
 
-    var form = new Form(({
-        name: _name,
+
+    const form = new Form(({
         address: _address,
-        date: _date
+        date: _date,
+        email: _email,
+        name: _name,
 
     }));
 
