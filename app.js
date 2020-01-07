@@ -42,8 +42,17 @@ app.post('/', (req, res) => {
     let _date = req.body.date;
     let _email = req.body.email;
 
+
+
     if (!validateEmail(_email)) {
-        return res.redirect(422,'index.html');
+        return res.status(422).send(
+            '<script>alert("Invalid Email!\\nPlease Try Again!");window.location.replace(".")</script>>'
+        );
+    }
+    else if (_name === '' || _address === ''){
+        return res.status(404).send(
+            '<script>alert("Empty Field!\\nPlease Try Again!");window.location.replace(".")</script>>'
+        );
     }
 
 
