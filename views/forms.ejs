@@ -19,6 +19,7 @@
 <div class="list_all" id="list_all">
     <table>
         <tr>
+            <th>#</th>
             <th>Name</th>
             <th>Address</th>
             <th>Email</th>
@@ -26,8 +27,9 @@
         </tr>
         <div id="result">
             <section id="result-list">
-                <% data.forEach((item)=>{ %>
+                <% data.forEach((item,index)=>{ %>
                     <tr>
+                        <th><%=index%></th>
                         <td><%= item.name %></td>
                         <td><%= item.address %></td>
                         <td><%= item.email %></td>

@@ -1,12 +1,14 @@
 <table>
     <tr>
+        <th>#</th>
         <th>Name</th>
         <th>Address</th>
         <th>Email</th>
         <th>Date</th>
     </tr>
-    <% data.forEach((item)=>{ %>
+    <% data.forEach((item,index)=>{ %>
         <tr>
+            <th><%=index%></th>
             <td><%= item.name %></td>
             <td><%= item.address %></td>
             <td><%= item.email %></td>
