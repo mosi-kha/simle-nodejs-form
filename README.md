@@ -1,4 +1,4 @@
-# simle-nodejs-form
+# simple-nodejs-form
 a simple form written by node.js
 
 ### API
