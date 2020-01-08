@@ -30,6 +30,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(express.json());
 app.use(express.static('./public'));
 app.use(express.urlencoded());
+app.set('view engine', 'ejs');
 
 function validateEmail(email) {
     let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -42,16 +43,14 @@ app.post('/', (req, res) => {
     let _date = req.body.date;
     let _email = req.body.email;
 
-
-
-    if (!validateEmail(_email)) {
-        return res.status(422).send(
-            '<script>alert("Invalid Email!\\nPlease Try Again!");window.location.replace(".")</script>>'
-        );
-    }
-    else if (_name === '' || _address === ''){
+    if (_name === '' || _address === '' || _address === '') {
         return res.status(404).send(
-            '<script>alert("Empty Field!\\nPlease Try Again!");window.location.replace(".")</script>>'
+            "Empty Field!\nPlease Try Again!"
+        );
+
+    } else if (!validateEmail(_email)) {
+        return res.status(422).send(
+            "Invalid Email!\nPlease Try Again!"
         );
     }
 
@@ -70,18 +69,41 @@ app.post('/', (req, res) => {
 
     });
 
-    return res.redirect('index.html');
+    res.send(200);
+    res.end();
+    // return res.redirect('index.html');
 });
 
 app.get('/forms', (req, res) => {
-    Form.find({}, (err, forms) => {
-        let formMap = [];
+    let query = {};
+    if (req.query.search || req.query.search === '') {
+        let searchParam = req.query.search;
+        query = {
+            $or: [{name: {$regex: '^' + searchParam}},
+                {email: {$regex: '^' + searchParam}},
+                {address: {$regex: '^' + searchParam}}]
+        };
+        Form.find(query, (err, forms) => {
+            let formMap = [];
+            try {
+                forms.forEach((form) => {
+                    formMap.push(form);
+                });
+                res.render('list', {data: formMap});
+            } catch (e) {
+                console.log(e);
+            }
 
-        forms.forEach((form) => {
-            formMap.push(form);
         });
-        res.send(formMap);
-    });
+    } else
+        Form.find({}, (err, forms) => {
+            let formMap = [];
+
+            forms.forEach((form) => {
+                formMap.push(form);
+            });
+            res.render('forms', {data: formMap});
+        });
 });
 
 app.listen(3000, () => {
