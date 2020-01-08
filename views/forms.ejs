@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/form-style.css">
+    <script src="/js/form.js"></script>
+</head>
+<body>
+<header>
+    <form action="">
+        <input type="search" id="search_id">
+        <i class="fa fa-search"></i>
+    </form>
+</header>
+<div class="list_all" id="list_all">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Date</th>
+        </tr>
+        <div id="result">
+            <section id="result-list">
+                <% data.forEach((item)=>{ %>
+                    <tr>
+                        <td><%= item.name %></td>
+                        <td><%= item.address %></td>
+                        <td><%= item.email %></td>
+                        <td><%= item.date %></td>
+                    </tr>
+                <% }); %>
+            </section>
+        </div>
+    </table>
+</div>
+
+</body>
+</html>
