@@ -9,6 +9,7 @@
   "author": "mostafa khaki",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
     "mongoose": "^5.8.3",
