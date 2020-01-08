@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Date</th>
+    </tr>
+    <% data.forEach((item)=>{ %>
+        <tr>
+            <td><%= item.name %></td>
+            <td><%= item.address %></td>
+            <td><%= item.email %></td>
+            <td><%= item.date %></td>
+        </tr>
+    <% }); %>
+</table>
